@@ -2,11 +2,13 @@ from flask import Flask, request
 import requests
 from datetime import datetime
 import pytz
+import os
 
 app = Flask(__name__)
 
 # Replace this with your actual Slack webhook
-SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+
+SLACK_WEBHOOK_URL = os.environ.get("SLACK_WEBHOOK_URL")
 
 @app.route('/')
 def track_click():
@@ -32,4 +34,5 @@ def track_click():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
